@@ -1,0 +1,9 @@
+{
+    "name": "get poe",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": { "default_popup": "popup.html" },
+    "description": "test",
+    "host_permissions": ["https://poe.game.qq.com/"],
+    "permissions": ["activeTab"]
+}
