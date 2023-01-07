@@ -6,17 +6,27 @@ document.querySelector('#btn').addEventListener('click', () => {
             url,
         },
         function (cookie) {
-            copy(cookie.value);
+            console.log('cookie', cookie);
+            if (cookie === null) {
+                writeMessage('not found');
+            } else {
+                copy(cookie.value);
+            }
         },
     );
 });
 
+function writeMessage(param) {
+    const messageContent = document.querySelector('.message-content');
+    messageContent.innerText = param;
+}
+
 function copy(value) {
-    var copyipt = document.createElement('input');
+    const copyipt = document.createElement('input');
     copyipt.setAttribute('value', value);
     document.body.appendChild(copyipt);
     copyipt.select();
     document.execCommand('copy');
     document.body.removeChild(copyipt);
-    alert('Success');
+    writeMessage('Copied');
 }
