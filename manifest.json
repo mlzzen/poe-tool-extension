@@ -3,13 +3,14 @@
     "version": "1.0",
     "manifest_version": 3,
     "icons": {
-        "16": "GET_POESESSID_16.png",
-        "32": "GET_POESESSID_32.png",
-        "48": "GET_POESESSID_48.png",
-        "128": "GET_POESESSID_128.png"
+        "16": "assets/16.png",
+        "32": "assets/32.png",
+        "48": "assets/48.png",
+        "128": "assets/128.png"
     },
     "action": { "default_popup": "popup.html" },
     "description": "GET POESESSID",
     "host_permissions": ["https://www.pathofexile.com/", "https://web.poe.garena.tw/", "https://poe.game.qq.com/"],
-    "permissions": ["activeTab", "cookies"]
+    "permissions": ["activeTab", "cookies", "storage"],
+    "options_page": "export.html"
 }
