@@ -1,5 +1,5 @@
 {
-    "name": "GET POESESSID",
+    "name": "POE Tool",
     "version": "1.0",
     "manifest_version": 3,
     "icons": {
@@ -9,7 +9,7 @@
         "128": "assets/128.png"
     },
     "action": { "default_popup": "popup.html" },
-    "description": "GET POESESSID",
+    "description": "POE Tool",
     "host_permissions": ["https://www.pathofexile.com/", "https://web.poe.garena.tw/", "https://poe.game.qq.com/"],
     "permissions": ["activeTab", "cookies", "storage"],
     "options_page": "export.html"
