@@ -1,5 +1,5 @@
 {
-    "name": "POE Tool",
+    "name": "poe-web-tool",
     "version": "1.0",
     "manifest_version": 3,
     "icons": {
@@ -8,8 +8,18 @@
         "48": "assets/48.png",
         "128": "assets/128.png"
     },
-    "action": { "default_popup": "popup.html" },
-    "description": "POE Tool",
-    "host_permissions": ["https://www.pathofexile.com/", "https://web.poe.garena.tw/", "https://poe.game.qq.com/"],
-    "permissions": ["activeTab", "cookies", "storage"]
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "description": "poe-web-tool",
+    "host_permissions": [
+        "https://www.pathofexile.com/",
+        "https://web.poe.garena.tw/",
+        "https://poe.game.qq.com/"
+    ],
+    "permissions": [
+        "activeTab",
+        "cookies",
+        "storage"
+    ]
 }
