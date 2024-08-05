@@ -11,7 +11,7 @@
     "action": {
         "default_popup": "popup.html"
     },
-    "description": "poe-tool-extension",
+    "description": "流放之路工具",
     "host_permissions": [
         "https://www.pathofexile.com/",
         "https://web.poe.garena.tw/",
