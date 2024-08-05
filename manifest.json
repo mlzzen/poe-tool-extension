@@ -1,5 +1,5 @@
 {
-    "name": "poe-web-tool",
+    "name": "poe-tool-extension",
     "version": "1.0",
     "manifest_version": 3,
     "icons": {
@@ -11,7 +11,7 @@
     "action": {
         "default_popup": "popup.html"
     },
-    "description": "poe-web-tool",
+    "description": "poe-tool-extension",
     "host_permissions": [
         "https://www.pathofexile.com/",
         "https://web.poe.garena.tw/",
