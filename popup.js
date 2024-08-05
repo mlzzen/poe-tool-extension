@@ -9,7 +9,7 @@ document.querySelector('#btn').addEventListener('click', () => {
         },
     ).then(res1 => {
         if (res1 === null) {
-            writeMessage('not found');
+            writeMessage('未登录');
             return;
         }
         poesessidPuin += res1.value;
@@ -21,7 +21,7 @@ document.querySelector('#btn').addEventListener('click', () => {
         )
     }).then(res2=>{
         if (res2 === null) {
-            writeMessage('not found');
+            writeMessage('未登录');
             return;
         }
         poesessidPuin += `;p_uin=${res2.value}` ;
@@ -40,7 +40,7 @@ function getCookie() {
         function (cookie) {
             console.log('cookie', cookie);
             if (cookie === null) {
-                writeMessage('not found');
+                writeMessage('未登录');
             } else {
                 // copy(cookie.value);
                 poesessidPuin += cookie.value;
@@ -61,5 +61,5 @@ function copy(value) {
     copyipt.select();
     document.execCommand('copy');
     document.body.removeChild(copyipt);
-    writeMessage('Copied');
+    writeMessage('已复制');
 }
