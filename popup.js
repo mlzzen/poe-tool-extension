@@ -1,5 +1,14 @@
 
-document.querySelector('#btn').addEventListener('click', () => {
+document.querySelector('.btn_pob').addEventListener('click', () => {
+    getCookie(true);
+});
+
+document.querySelector('.btn_yishua').addEventListener('click', () => {
+    getCookie();
+});
+
+
+function getCookie(isPob) {
     const url = document.querySelector('#select').value;
     let poesessidPuin = '';
     chrome.cookies.get(
@@ -12,7 +21,7 @@ document.querySelector('#btn').addEventListener('click', () => {
             writeMessage('未登录');
             return;
         }
-        poesessidPuin += res1.value;
+        poesessidPuin += isPob ? `${res1.value};`: `POESESSID=${res1.value};`;
         return chrome.cookies.get(
             {
                 name: 'p_uin',
@@ -24,29 +33,9 @@ document.querySelector('#btn').addEventListener('click', () => {
             writeMessage('未登录');
             return;
         }
-        poesessidPuin += `;p_uin=${res2.value}` ;
+        poesessidPuin += `p_uin=${res2.value}` ;
         copy(poesessidPuin);
     })
-
-
-});
-
-function getCookie() {
-    chrome.cookies.get(
-        {
-            name: 'p_uin',
-            url,
-        },
-        function (cookie) {
-            console.log('cookie', cookie);
-            if (cookie === null) {
-                writeMessage('未登录');
-            } else {
-                // copy(cookie.value);
-                poesessidPuin += cookie.value;
-            }
-        },
-    );
 }
 
 function writeMessage(param) {
