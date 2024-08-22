@@ -1,45 +1,77 @@
 
-document.querySelector('.btn_pob').addEventListener('click', () => {
-    getCookie(true);
-});
+document.querySelector('.btn_pob').addEventListener('click', () => getCookie(true));
 
-document.querySelector('.btn_yishua').addEventListener('click', () => {
-    getCookie();
-});
+document.querySelector('.btn_yishua').addEventListener('click', () => getCookie());
+
+document.querySelector('.btn_clear').addEventListener('click', clearCookie);
 
 
-function getCookie(isPob) {
+let poesessidPuin = '';
+let POESESSID = '';
+let p_uin = '';
+
+async function getCookie(isPob) {
+    await getCookieFromLocal();
+    if (!POESESSID || !p_uin) {
+        getCookieFromNetwork(isPob)
+    } else{
+        poesessidPuin = isPob ? `${POESESSID};p_uin=${p_uin}` : `POESESSID=${POESESSID};p_uin=${p_uin}`;
+        copy(poesessidPuin);
+    }
+}
+
+function clearCookie(){
+    chrome.storage.local.remove('POESESSID');
+    chrome.storage.local.remove('p_uin');
+    writeMessage('清除成功');
+}
+
+async function getCookieFromLocal() {
+    const sidData = await chrome.storage.local.get('POESESSID');
+    const puinData = await chrome.storage.local.get('p_uin');
+    POESESSID = sidData.POESESSID || ''
+    p_uin = puinData.p_uin || ''
+}
+
+function saveCookie(POESESSID, p_uin) {
+    chrome.storage.local.set({ POESESSID, }, () => { });
+    chrome.storage.local.set({ p_uin }, () => { });
+}
+
+function getCookieFromNetwork(isPob) {
     const url = document.querySelector('#select').value;
-    let poesessidPuin = '';
     chrome.cookies.get(
         {
             name: 'POESESSID',
             url,
         },
-    ).then(res1 => {
-        if (res1 === null) {
+    ).then(res => {
+        if (res === null) {
             writeMessage('未登录');
             return;
         }
-        poesessidPuin += isPob ? `${res1.value};`: `POESESSID=${res1.value};`;
+        POESESSID = res.value;
+        poesessidPuin += isPob ? `${res.value};` : `POESESSID=${res.value};`;
         return chrome.cookies.get(
             {
                 name: 'p_uin',
                 url,
             }
         )
-    }).then(res2=>{
-        if (res2 === null) {
+    }).then(res => {
+        if (res === null) {
             writeMessage('未登录');
             return;
         }
-        poesessidPuin += `p_uin=${res2.value}` ;
+        p_uin = res.value;
+        poesessidPuin += `p_uin=${res.value}`;
+        saveCookie(POESESSID, p_uin)
         copy(poesessidPuin);
     })
 }
 
 function writeMessage(param) {
-    const messageContent = document.querySelector('.message-content');
+    const messageContent = document.querySelector('.message-wrap');
     messageContent.innerText = param;
 }
 
