@@ -5,22 +5,83 @@ document.querySelector('.btn_yishua').addEventListener('click', () => getCookie(
 
 document.querySelector('.btn_clear').addEventListener('click', clearCookie);
 
+document.querySelector('.btn_verify').addEventListener('click', loginVerify);
 
 let poesessidPuin = '';
 let POESESSID = '';
 let p_uin = '';
 
+document.addEventListener('DOMContentLoaded', async () => {
+    await getCookieFromLocal();
+    const Cookie = POESESSID && p_uin ? `POESESSID=${POESESSID};p_uin=${p_uin}` : undefined;
+    const res = await fetch('https://poe.game.qq.com/my-account', {
+        headers: {
+            Cookie
+        }
+    })
+    if (res.status === 401) {
+        // clearCookie();
+        writeMessage('未登录');
+    } else if (res.status === 200) {
+        if (POESESSID && p_uin) {
+            saveCookie(POESESSID, p_uin);
+        } else {
+            getCookieFromNetwork();
+        }
+        writeMessage('已登录');
+    }
+});
+
+// 获取现有的 cookie 并添加新字段
+async function getCookiesAndAddFields(POESESSID, p_uin) {
+    try {
+        const cookies = await chrome.cookies.getAll({ url: 'https://poe.game.qq.com/my-account' });
+        let cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+
+        if (POESESSID && p_uin && !(cookieString.includes('POESESSID'))) {
+            cookieString += `; POESESSID=${POESESSID}; p_uin=${p_uin}`;
+        }
+
+        return cookieString;
+    } catch (error) {
+        console.error('Error getting cookies:', error);
+        throw error;
+    }
+}
+
+async function loginVerify() {
+    await getCookieFromLocal();
+    const cookieString = await getCookiesAndAddFields(POESESSID, p_uin);
+    const res = await fetch('https://poe.game.qq.com/my-account', {
+        headers: {
+            'Cookie': cookieString
+        },
+        credentials: 'include'
+    })
+    if (res.status === 401) {
+        // clearCookie();
+        writeMessage('未登录');
+    } else if (res.status === 200) {
+        if (POESESSID && p_uin) {
+            saveCookie(POESESSID, p_uin);
+        } else {
+            getCookieFromNetwork();
+        }
+        writeMessage('已登录');
+    }
+}
+
 async function getCookie(isPob) {
     await getCookieFromLocal();
     if (!POESESSID || !p_uin) {
         getCookieFromNetwork(isPob)
-    } else{
+    } else {
         poesessidPuin = isPob ? `${POESESSID};p_uin=${p_uin}` : `POESESSID=${POESESSID};p_uin=${p_uin}`;
         copy(poesessidPuin);
     }
 }
 
-function clearCookie(){
+function clearCookie() {
     chrome.storage.local.remove('POESESSID');
     chrome.storage.local.remove('p_uin');
     writeMessage('清除成功');
